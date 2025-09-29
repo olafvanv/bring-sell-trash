@@ -1,0 +1,22 @@
+<div class="filter-container">
+  <span>Category filters:</span>
+
+  <div class="filter-chips-wrapper">
+    <mat-chip-listbox [multiple]="true"
+      [(ngModel)]="selectedFilters"
+      (change)="filtersChanged($event)">
+
+      @for(category of categories(); track category.id) {
+      <mat-chip-option [value]="category.id">{{ category.name }}
+      </mat-chip-option>
+      }
+    </mat-chip-listbox>
+  </div>
+
+  <button mat-stroked-button
+    [disabled]="!selectedFilters.length"
+    (click)="clearFilters()"><mat-icon>clear</mat-icon> Clear</button>
+
+  <button mat-stroked-button
+    (click)="manageCategories()"><mat-icon>edit</mat-icon> Manage</button>
+</div>

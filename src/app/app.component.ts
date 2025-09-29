@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { CategoryFilterComponent } from './components/category-filter/category-filter.component';
+import { MoveItemsTableComponent } from './components/move-items-table/move-items-table.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [MoveItemsTableComponent, CategoryFilterComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
-export class AppComponent {
-  title = 'verhuis-app';
-}
+export class AppComponent {}

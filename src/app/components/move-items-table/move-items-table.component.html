@@ -1,0 +1,50 @@
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <th>Name</th>
+      <th>Category</th>
+      <th colspan="2">Decision</th>
+    </thead>
+
+    <tbody>
+      <tr class="creation-row">
+        <td>
+          <input type="text"
+            [(ngModel)]="newItem.name"
+            placeholder="Item name"
+            name="name" />
+        </td>
+        <td>
+          <select [(ngModel)]="newItem.categoryId">
+            <option [value]="null">-- Select category --</option>
+            @for(category of categories(); track category.id) {
+            <option [value]="category.id">{{category.name}}</option>
+            }
+          </select>
+        </td>
+        <td>
+          <mat-button-toggle-group [(ngModel)]="newItem.state">
+            <mat-button-toggle value="Bring">🚛 Bring</mat-button-toggle>
+            <mat-button-toggle value="Sell">💰 Sell</mat-button-toggle>
+            <mat-button-toggle value="Trash">🗑️ Trash</mat-button-toggle>
+          </mat-button-toggle-group>
+        </td>
+        <td>
+          <button mat-button
+            (click)="addItem()"
+            [disabled]="!newItem.isValid">Add</button>
+        </td>
+      </tr>
+      @for(item of items() | categoryFilter:selectedFilters(); track item.id) {
+      <tr [@listItem]>
+        <td>{{ item.name }}</td>
+        <td>{{ item.categoryId | categoryName }}</td>
+        <td>{{ item.state }}</td>
+        <td> <button mat-icon-button
+            class="delete-button"
+            (click)="removeItem(item)"><mat-icon>delete</mat-icon></button> </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

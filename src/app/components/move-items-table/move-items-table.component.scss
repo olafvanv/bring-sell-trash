@@ -1,0 +1,42 @@
+@use "@angular/material" as mat;
+
+.table-wrapper {
+  border-radius: 1em;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+
+  table {
+    width: 100%;
+    border-spacing: 0;
+
+    thead {
+      background-color: var(--mat-sys-primary-container);
+
+      th {
+        text-align: left;
+        padding: 12px;
+      }
+    }
+
+    tbody {
+      tr {
+        td {
+          padding: 12px;
+          border-top: 1px solid #e0e0e0;
+
+          &:last-of-type {
+            text-align: right;
+          }
+
+          .delete-button {
+            @include mat.icon-overrides(
+              (
+                color: var(--mat-sys-error),
+              )
+            );
+          }
+        }
+      }
+    }
+  }
+}
