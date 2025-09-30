@@ -32,7 +32,11 @@ import { LIST_ITEM_ANIMATION } from '../../utils/animations/list-item.animation'
 export class MoveItemsTableComponent {
   public items: Signal<MoveItem[]>;
 
-  public newItem = MoveItem.createEmpty();
+  public newItem: Pick<MoveItem, 'name' | 'categoryId' | 'state'> = {
+    name: '',
+    categoryId: null,
+    state: null,
+  };
   public categories: Signal<Category[]>;
   public selectedFilters: Signal<string[]>;
 
@@ -45,9 +49,21 @@ export class MoveItemsTableComponent {
     this.selectedFilters = this.categoryService.categoryFilters;
   }
 
+  get newItemIsValid(): boolean {
+    return (
+      this.newItem.name.trim().length > 0 &&
+      !!this.newItem.categoryId &&
+      !!this.newItem.state
+    );
+  }
+
   public addItem() {
     this.itemsService.addItem(this.newItem);
-    this.newItem = MoveItem.createEmpty();
+    this.newItem = {
+      name: '',
+      categoryId: null,
+      state: null,
+    };
   }
 
   public removeItem(item: MoveItem) {

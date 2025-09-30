@@ -38,7 +38,6 @@ export class ManageCategoriesComponent {
     if (!this.canAddCategory()) return;
 
     this.categoryService.addCategory({
-      id: crypto.randomUUID(),
       name: this.newCategoryName.trim(),
     });
 

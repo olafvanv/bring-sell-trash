@@ -1,5 +1,8 @@
 import { Injectable, signal } from '@angular/core';
+import { collection, collectionData, Firestore } from '@angular/fire/firestore';
+import { Observable, tap } from 'rxjs';
 import { MoveItem } from '../models/move-item.model';
+import { CategoryService } from './category.service';
 import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
@@ -12,9 +15,21 @@ export class ItemsService {
 
   private readonly storageKey = 'moveItems';
 
-  constructor(private localStorage: LocalStorageService) {
-    this._items.set(
-      this.localStorage.getItem<MoveItem[]>(this.storageKey) ?? []
+  constructor(
+    private localStorage: LocalStorageService,
+    private categoryService: CategoryService,
+    private db: Firestore
+  ) {
+    // this._items.set(
+    //   this.localStorage.getItem<MoveItem[]>(this.storageKey) ?? []
+    // );
+  }
+
+  public getItems(): Observable<MoveItem[]> {
+    const itemCollection = collection(this.db, 'items');
+
+    return (collectionData(itemCollection) as Observable<MoveItem[]>).pipe(
+      tap((items) => this._items.set(items))
     );
   }
 
