@@ -5,10 +5,12 @@
     <div class="category-list-item add-item">
       <input type="text"
         placeholder="New category"
+        (keyup.enter)="addCategory()"
         [(ngModel)]="newCategoryName" />
       <button mat-icon-button
         (click)="addCategory()"
-        [disabled]="!newCategoryName.trim()">
+        [disabled]="!newCategoryName.trim()"
+        type="submit">
         <mat-icon>add</mat-icon>
       </button>
     </div>

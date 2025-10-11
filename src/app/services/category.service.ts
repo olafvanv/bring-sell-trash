@@ -31,23 +31,21 @@ export class CategoryService {
 
   public getCategories(): Observable<Category[]> {
     const categoryCollection = collection(this.db, 'categories');
-    console.log('Fetching categories from Firestore...');
 
-    return (collectionData(categoryCollection) as Observable<Category[]>).pipe(
-      tap((categories) => this._categories.set(categories))
-    );
+    return (
+      collectionData(categoryCollection, {
+        idField: 'id',
+      }) as Observable<Category[]>
+    ).pipe(tap((categories) => this._categories.set(categories)));
   }
 
   public addCategory(category: Category): void {
-    addDoc(collection(this.db, 'categories'), <Category>category).then(
-      (docRef) => {
-        console.log('Document written with ID: ', docRef);
-        this._categories.update((cats) => [
-          ...cats,
-          { ...category, id: docRef.id },
-        ]);
-      }
-    );
+    addDoc(collection(this.db, 'categories'), category).then((docRef) => {
+      this._categories.update((cats) => [
+        ...cats,
+        { ...category, id: docRef.id },
+      ]);
+    });
   }
 
   public removeCategory(category: Category): void {

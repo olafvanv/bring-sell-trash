@@ -4,7 +4,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { Category } from '../../models/category.interface';
 import { MoveItem } from '../../models/move-item.model';
 import { CategoryFilterPipe } from '../../pipes/category-filter.pipe';
@@ -24,6 +27,9 @@ import { LIST_ITEM_ANIMATION } from '../../utils/animations/list-item.animation'
     MatDialogModule,
     CategoryFilterPipe,
     MatButtonToggleModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
   ],
   templateUrl: './move-items-table.component.html',
   styleUrl: './move-items-table.component.scss',
@@ -58,7 +64,24 @@ export class MoveItemsTableComponent {
   }
 
   public addItem() {
-    this.itemsService.addItem(this.newItem);
+    const categoryName = this.categories().find(
+      (cat) => cat.id === this.newItem.categoryId
+    )?.name;
+
+    if (!categoryName) {
+      console.error('Invalid category ID');
+      return;
+    }
+
+    const newItem: MoveItem = {
+      name: this.newItem.name.trim(),
+      categoryId: this.newItem.categoryId,
+      categoryName: categoryName,
+      state: this.newItem.state,
+    };
+
+    this.itemsService.addItem(newItem);
+
     this.newItem = {
       name: '',
       categoryId: null,

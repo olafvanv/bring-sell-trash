@@ -45,6 +45,11 @@ export class ManageCategoriesComponent {
   }
 
   public canAddCategory(): boolean {
-    return this.newCategoryName.trim().length > 0;
+    const name = this.newCategoryName.trim();
+
+    return (
+      name.length > 0 &&
+      this.categories().filter((c) => c.name === name).length === 0
+    );
   }
 }

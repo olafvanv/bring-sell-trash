@@ -9,18 +9,22 @@
     <tbody>
       <tr class="creation-row">
         <td>
-          <input type="text"
-            [(ngModel)]="newItem.name"
-            placeholder="Item name"
-            name="name" />
+          <mat-form-field>
+            <input matInput
+              placeholder="Item name"
+              [(ngModel)]="newItem.name"
+              name="name" />
+          </mat-form-field>
         </td>
         <td>
-          <select [(ngModel)]="newItem.categoryId">
-            <option [value]="null">-- Select category --</option>
-            @for(category of categories(); track category.id) {
-            <option [value]="category.id">{{category.name}}</option>
-            }
-          </select>
+          <mat-form-field>
+            <mat-select placeholder="Select Category"
+              [(ngModel)]="newItem.categoryId">
+              @for(category of categories(); track category.id) {
+              <mat-option [value]="category.id">{{category.name}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
         </td>
         <td>
           <mat-button-toggle-group [(ngModel)]="newItem.state">

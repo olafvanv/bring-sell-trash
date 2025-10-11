@@ -1,9 +1,14 @@
 import { Injectable, signal } from '@angular/core';
-import { collection, collectionData, Firestore } from '@angular/fire/firestore';
+import {
+  addDoc,
+  collection,
+  collectionData,
+  deleteDoc,
+  doc,
+  Firestore,
+} from '@angular/fire/firestore';
 import { Observable, tap } from 'rxjs';
 import { MoveItem } from '../models/move-item.model';
-import { CategoryService } from './category.service';
-import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,37 +18,37 @@ export class ItemsService {
 
   public items = this._items.asReadonly();
 
-  private readonly storageKey = 'moveItems';
-
-  constructor(
-    private localStorage: LocalStorageService,
-    private categoryService: CategoryService,
-    private db: Firestore
-  ) {
-    // this._items.set(
-    //   this.localStorage.getItem<MoveItem[]>(this.storageKey) ?? []
-    // );
+  constructor(private db: Firestore) {
+    this.getItems().subscribe();
   }
 
   public getItems(): Observable<MoveItem[]> {
     const itemCollection = collection(this.db, 'items');
 
-    return (collectionData(itemCollection) as Observable<MoveItem[]>).pipe(
+    return (
+      collectionData(itemCollection, { idField: 'id' }) as Observable<
+        MoveItem[]
+      >
+    ).pipe(
+      tap((items) => console.log(items)),
       tap((items) => this._items.set(items))
     );
   }
 
   public addItem(item: MoveItem): void {
-    const items = this._items();
-    this._items.set([item, ...items]);
+    const itemCollection = collection(this.db, 'items');
 
-    this.localStorage.setItem(this.storageKey, this._items());
+    addDoc(itemCollection, item).then((docRef) => {
+      console.log(docRef);
+      this._items.update((items) => [...items, { ...item, id: docRef.id }]);
+    });
   }
 
   public removeItem(item: MoveItem): void {
-    const items = this._items();
-    this._items.set(items.filter((i) => i.id !== item.id));
+    const ref = doc(this.db, `items/${item.id}`);
 
-    this.localStorage.setItem(this.storageKey, this._items());
+    deleteDoc(ref).then(() => {
+      this._items.update((items) => items.filter((cat) => cat.id !== item.id));
+    });
   }
 }

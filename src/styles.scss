@@ -1,4 +1,14 @@
+@use "@angular/material" as mat;
+@use "./app/styles/theme.scss" as theme;
 /* You can add global styles to this file, and also import other style files */
+
+html {
+  @include mat.theme(
+    (
+      color: theme.$primary-palette,
+    )
+  );
+}
 
 html,
 body {
