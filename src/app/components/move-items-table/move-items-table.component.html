@@ -7,46 +7,20 @@
     </thead>
 
     <tbody>
-      <tr class="creation-row">
-        <td>
-          <mat-form-field>
-            <input matInput
-              placeholder="Item name"
-              [(ngModel)]="newItem.name"
-              name="name" />
-          </mat-form-field>
-        </td>
-        <td>
-          <mat-form-field>
-            <mat-select placeholder="Select Category"
-              [(ngModel)]="newItem.categoryId">
-              @for(category of categories(); track category.id) {
-              <mat-option [value]="category.id">{{category.name}}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </td>
-        <td>
-          <mat-button-toggle-group [(ngModel)]="newItem.state">
-            <mat-button-toggle value="Bring">🚛 Bring</mat-button-toggle>
-            <mat-button-toggle value="Sell">💰 Sell</mat-button-toggle>
-            <mat-button-toggle value="Trash">🗑️ Trash</mat-button-toggle>
-          </mat-button-toggle-group>
-        </td>
-        <td>
-          <button mat-button
-            (click)="addItem()"
-            [disabled]="!newItemIsValid">Add</button>
-        </td>
-      </tr>
-      @for(item of items() | categoryFilter:selectedFilters(); track item.id) {
+      <tr new-item-row></tr>
+
+      @for(item of items() | itemsFilter:selectedFilters(); track item.id) {
       <tr [@listItem]>
         <td>{{ item.name }}</td>
         <td>{{ item.categoryId | categoryName }}</td>
-        <td>{{ item.state }}</td>
-        <td> <button mat-icon-button
+        <td>{{ item.state | decisionLabel}}</td>
+        <td>
+          <button mat-icon-button
             class="delete-button"
-            (click)="removeItem(item)"><mat-icon>delete</mat-icon></button> </td>
+            (click)="removeItem(item)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
       </tr>
       }
     </tbody>

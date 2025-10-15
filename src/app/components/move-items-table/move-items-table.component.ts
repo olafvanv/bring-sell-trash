@@ -1,4 +1,4 @@
-import { Component, Signal } from '@angular/core';
+import { Component, effect, Signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -9,12 +9,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Category } from '../../models/category.interface';
+import { MoveItemFilters } from '../../models/item-filters.type';
 import { MoveItem } from '../../models/move-item.model';
-import { CategoryFilterPipe } from '../../pipes/category-filter.pipe';
 import { CategoryNamePipe } from '../../pipes/category-name.pipe';
+import { DecisionLabelPipe } from '../../pipes/decision-label.pipe';
+import { ItemsFilterPipe } from '../../pipes/items-filter.pipe';
 import { CategoryService } from '../../services/category.service';
 import { ItemsService } from '../../services/items.service';
 import { LIST_ITEM_ANIMATION } from '../../utils/animations/list-item.animation';
+import { NewItemRowComponent } from './new-item-row/new-item-row.component';
 
 @Component({
   selector: 'app-move-items-table',
@@ -25,11 +28,13 @@ import { LIST_ITEM_ANIMATION } from '../../utils/animations/list-item.animation'
     FormsModule,
     CategoryNamePipe,
     MatDialogModule,
-    CategoryFilterPipe,
     MatButtonToggleModule,
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
+    NewItemRowComponent,
+    DecisionLabelPipe,
+    ItemsFilterPipe,
   ],
   templateUrl: './move-items-table.component.html',
   styleUrl: './move-items-table.component.scss',
@@ -44,7 +49,7 @@ export class MoveItemsTableComponent {
     state: null,
   };
   public categories: Signal<Category[]>;
-  public selectedFilters: Signal<string[]>;
+  public selectedFilters: Signal<MoveItemFilters>;
 
   constructor(
     private categoryService: CategoryService,
@@ -52,7 +57,11 @@ export class MoveItemsTableComponent {
   ) {
     this.categories = this.categoryService.categories;
     this.items = this.itemsService.items;
-    this.selectedFilters = this.categoryService.categoryFilters;
+    this.selectedFilters = this.itemsService.filters;
+
+    effect(() => {
+      console.log(this.items());
+    });
   }
 
   get newItemIsValid(): boolean {

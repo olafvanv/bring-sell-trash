@@ -1,0 +1,15 @@
+<div class="decision-filters">
+  <span>Decision filters:</span>
+
+  <div class="filter-chips-wrapper">
+    <mat-chip-listbox [multiple]="true"
+      [(ngModel)]="selectedFilters"
+      (change)="filtersChanged($event)">
+
+      @for(decision of decisions; track decision.value) {
+      <mat-chip-option [value]="decision.value">{{ decision.label }}
+      </mat-chip-option>
+      }
+    </mat-chip-listbox>
+  </div>
+</div>

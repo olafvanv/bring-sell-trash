@@ -28,10 +28,6 @@
             text-align: right;
           }
 
-          mat-form-field {
-            width: 100%;
-          }
-
           .delete-button {
             @include mat.icon-overrides(
               (

@@ -1,0 +1,11 @@
+td {
+  padding: 12px;
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  &:last-of-type {
+    text-align: right;
+  }
+}

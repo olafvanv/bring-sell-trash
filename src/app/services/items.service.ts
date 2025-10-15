@@ -8,6 +8,7 @@ import {
   Firestore,
 } from '@angular/fire/firestore';
 import { Observable, tap } from 'rxjs';
+import { MoveItemFilters } from '../models/item-filters.type';
 import { MoveItem } from '../models/move-item.model';
 
 @Injectable({
@@ -17,6 +18,7 @@ export class ItemsService {
   private _items = signal<MoveItem[]>([]);
 
   public items = this._items.asReadonly();
+  public filters = signal<MoveItemFilters>({} as MoveItemFilters);
 
   constructor(private db: Firestore) {
     this.getItems().subscribe();
@@ -29,10 +31,7 @@ export class ItemsService {
       collectionData(itemCollection, { idField: 'id' }) as Observable<
         MoveItem[]
       >
-    ).pipe(
-      tap((items) => console.log(items)),
-      tap((items) => this._items.set(items))
-    );
+    ).pipe(tap((items) => this._items.set(items)));
   }
 
   public addItem(item: MoveItem): void {
