@@ -1,0 +1,21 @@
+<div class="delete-container"
+  [class.confirm-mode]="showConfirm()">
+  <button mat-icon-button
+    class="delete-button"
+    (click)="onDelete()">
+    <mat-icon>delete</mat-icon>
+  </button>
+
+  <div class="confirm-buttons">
+    <button mat-icon-button
+      class="confirm"
+      (click)="confirm()">
+      <mat-icon>check</mat-icon>
+    </button>
+    <button mat-icon-button
+      class="cancel"
+      (click)="cancel()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>

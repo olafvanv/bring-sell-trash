@@ -17,6 +17,7 @@ import { ItemsFilterPipe } from '../../pipes/items-filter.pipe';
 import { CategoryService } from '../../services/category.service';
 import { ItemsService } from '../../services/items.service';
 import { LIST_ITEM_ANIMATION } from '../../utils/animations/list-item.animation';
+import { DeleteButtonComponent } from './delete-button/delete-button.component';
 import { NewItemRowComponent } from './new-item-row/new-item-row.component';
 
 @Component({
@@ -35,6 +36,7 @@ import { NewItemRowComponent } from './new-item-row/new-item-row.component';
     NewItemRowComponent,
     DecisionLabelPipe,
     ItemsFilterPipe,
+    DeleteButtonComponent,
   ],
   templateUrl: './move-items-table.component.html',
   styleUrl: './move-items-table.component.scss',

@@ -15,11 +15,7 @@
         <td>{{ item.categoryId | categoryName }}</td>
         <td>{{ item.state | decisionLabel}}</td>
         <td>
-          <button mat-icon-button
-            class="delete-button"
-            (click)="removeItem(item)">
-            <mat-icon>delete</mat-icon>
-          </button>
+          <app-delete-button (delete)="removeItem(item)"></app-delete-button>
         </td>
       </tr>
       }

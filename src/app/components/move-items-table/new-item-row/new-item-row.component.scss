@@ -8,4 +8,9 @@ td {
   &:last-of-type {
     text-align: right;
   }
+
+  &.decision-td {
+    width: 320px;
+    box-sizing: border-box;
+  }
 }

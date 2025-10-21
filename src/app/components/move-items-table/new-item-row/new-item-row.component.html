@@ -16,7 +16,7 @@
     </mat-select>
   </mat-form-field>
 </td>
-<td>
+<td class="decision-td">
   <mat-button-toggle-group [(ngModel)]="newItem.state">
     @for (decision of moveDecisions; track decision.value) {
     <mat-button-toggle [value]="decision.value">{{decision.label}}</mat-button-toggle>

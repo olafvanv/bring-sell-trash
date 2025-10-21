@@ -27,14 +27,6 @@
           &:last-of-type {
             text-align: right;
           }
-
-          .delete-button {
-            @include mat.icon-overrides(
-              (
-                color: var(--mat-sys-error),
-              )
-            );
-          }
         }
       }
     }
