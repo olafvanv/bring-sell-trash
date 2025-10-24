@@ -1,0 +1,40 @@
+<div class="filters-container">
+  <mat-icon class="filter-icon">filter_list</mat-icon>
+
+  <mat-form-field>
+    <mat-select placeholder="Category"
+      multiple
+      [(ngModel)]="selectedCategories">
+
+      @for(category of categories(); track category.id) {
+      <mat-option [value]="category.id">{{category.name}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder="Decision"
+      multiple
+      [(ngModel)]="selectedDecisions">
+
+      @for(decision of decisions; track decision.value) {
+      <mat-option [value]="decision.value">{{decision.label}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <div class="buttons">
+    @if(hasActiveFilters()) {
+    <button mat-icon-button
+      (click)="clearAllFilters()">
+      <mat-icon>clear</mat-icon>
+    </button>
+    }
+    <button mat-icon-button
+      class="manage-button"
+      (click)="manageFilters()">
+      <mat-icon>settings</mat-icon>
+    </button>
+  </div>
+
+</div>

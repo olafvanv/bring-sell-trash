@@ -3,7 +3,7 @@
 .delete-container {
   position: relative;
   display: inline-flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   overflow: visible;
   width: 80px;
@@ -12,7 +12,7 @@
   .confirm-buttons button {
     transform: translate(0);
     opacity: 1;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
   }
 
   .confirm-buttons {
@@ -28,7 +28,7 @@
   &.confirm-mode {
     .delete-button {
       opacity: 0;
-      transform: translateX(-30px);
+      transform: translateX(-50px);
     }
 
     .confirm-buttons {

@@ -1,9 +1,6 @@
-<div class="page-title">
-  <h1>Bring, Sell or Trash</h1>
-</div>
+<h1 class="page-title">Sell, Bring or Trash</h1>
 
-<div class="content-wrapper">
-  <app-category-filter></app-category-filter>
-  <app-decision-filter></app-decision-filter>
-  <app-move-items-table></app-move-items-table>
+<div class="content-container">
+  <app-filters (filterChange)="onFilterChange($event)"></app-filters>
+  <app-move-items [items]="items() | itemsFilter: selectedFilters()"></app-move-items>
 </div>

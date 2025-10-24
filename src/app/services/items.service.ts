@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { effect, Injectable, signal } from '@angular/core';
 import {
   addDoc,
   collection,
@@ -22,6 +22,9 @@ export class ItemsService {
 
   constructor(private db: Firestore) {
     this.getItems().subscribe();
+    effect(() => {
+      console.log('Items updated:', this._items());
+    });
   }
 
   public getItems(): Observable<MoveItem[]> {

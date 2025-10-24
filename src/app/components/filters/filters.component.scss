@@ -1,0 +1,20 @@
+@use "@angular/material" as mat;
+
+.filters-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 0;
+
+  .filter-icon {
+    color: var(--mat-sys-primary);
+  }
+
+  .buttons {
+    margin-left: auto;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  @include mat.form-field-density(-4);
+}

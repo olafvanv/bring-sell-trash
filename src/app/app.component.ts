@@ -1,16 +1,27 @@
-import { Component } from '@angular/core';
-import { CategoryFilterComponent } from './components/category-filter/category-filter.component';
-import { DecisionFilterComponent } from './components/decision-filter/decision-filter.component';
-import { MoveItemsTableComponent } from './components/move-items-table/move-items-table.component';
+import { Component, signal, Signal } from '@angular/core';
+import { FiltersComponent } from './components/filters/filters.component';
+import { MoveItemsComponent } from './components/move-items/move-items.component';
+import { MoveItemFilters } from './models/item-filters.type';
+import { MoveItem } from './models/move-item.model';
+import { ItemsFilterPipe } from './pipes/items-filter.pipe';
+import { ItemsService } from './services/items.service';
 
 @Component({
   selector: 'app-root',
-  imports: [
-    MoveItemsTableComponent,
-    CategoryFilterComponent,
-    DecisionFilterComponent,
-  ],
+  imports: [MoveItemsComponent, FiltersComponent, ItemsFilterPipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {}
+export class AppComponent {
+  public items: Signal<MoveItem[]>;
+  public selectedFilters = signal<MoveItemFilters>({} as MoveItemFilters);
+
+  constructor(private itemsService: ItemsService) {
+    this.items = this.itemsService.items;
+  }
+
+  onFilterChange(filters: MoveItemFilters) {
+    console.log(filters);
+    this.selectedFilters.set(filters);
+  }
+}
