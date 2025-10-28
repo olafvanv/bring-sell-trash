@@ -1,5 +1,16 @@
+<div class="add-new-item"
+  (click)="addNewItem()">
+  <mat-icon>add</mat-icon>
+</div>
+
 <div class="items-container">
   @for(item of items(); track item.id) {
-  <app-move-item-card [item]="item"></app-move-item-card>
+  <div class="card-wrapper"
+    [@addRemoveCard]>
+    <app-move-item-card [item]="item"
+      class="move-item-card"
+      (delete)="deleteItem(item)">
+    </app-move-item-card>
+  </div>
   }
 </div>

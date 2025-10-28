@@ -3,8 +3,6 @@ import {
   addDoc,
   collection,
   collectionData,
-  deleteDoc,
-  doc,
   Firestore,
 } from '@angular/fire/firestore';
 import { Observable, tap } from 'rxjs';
@@ -47,10 +45,11 @@ export class ItemsService {
   }
 
   public removeItem(item: MoveItem): void {
-    const ref = doc(this.db, `items/${item.id}`);
+    // const ref = doc(this.db, `items/${item.id}`);
 
-    deleteDoc(ref).then(() => {
-      this._items.update((items) => items.filter((cat) => cat.id !== item.id));
-    });
+    // deleteDoc(ref).then(() => {
+    //   this._items.update((items) => items.filter((cat) => cat.id !== item.id));
+    // });
+    this._items.update((items) => items.filter((cat) => cat.id !== item.id));
   }
 }
