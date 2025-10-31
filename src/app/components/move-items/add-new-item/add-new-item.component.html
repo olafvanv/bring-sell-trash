@@ -1,0 +1,22 @@
+<div class="add-new-item"
+  [class.adding]="addingItem()">
+  @if(!addingItem()) {
+  <div class="toggle-wrapper"
+    (click)="startAddingItem()">
+    <mat-icon>add</mat-icon>
+  </div>
+  } @else {
+  <div class="form-wrapper">
+    <dynamic-form [formConfig]="formConfig"
+      [group]="formGroup">
+    </dynamic-form>
+
+    <button mat-flat-button
+      [disabled]="formGroup.invalid"
+      (click)="addItem()">
+      <mat-icon>add</mat-icon>
+      Add
+    </button>
+  </div>
+  }
+</div>

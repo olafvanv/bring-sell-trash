@@ -1,3 +1,4 @@
+import { Timestamp } from '@angular/fire/firestore';
 import { MoveDecision } from './move-state.enum';
 
 export interface MoveItem {
@@ -6,4 +7,5 @@ export interface MoveItem {
   categoryId: string | null;
   categoryName?: string | null;
   state: MoveDecision | null;
+  createdAt?: Timestamp;
 }

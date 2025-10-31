@@ -21,7 +21,6 @@ export class AppComponent {
   }
 
   onFilterChange(filters: MoveItemFilters) {
-    console.log(filters);
     this.selectedFilters.set(filters);
   }
 }

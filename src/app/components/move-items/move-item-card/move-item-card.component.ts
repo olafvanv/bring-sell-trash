@@ -11,6 +11,7 @@ import { DeleteButtonComponent } from '../delete-button/delete-button.component'
   styleUrl: './move-item-card.component.scss',
 })
 export class MoveItemCardComponent {
+  public items = input<MoveItem[]>();
   public item = input.required<MoveItem>();
   public delete = output<void>();
 

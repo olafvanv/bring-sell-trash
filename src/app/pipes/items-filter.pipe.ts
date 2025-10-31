@@ -17,7 +17,7 @@ export class ItemsFilterPipe implements PipeTransform {
           return true;
         }
 
-        const itemKey = key as keyof MoveItem;
+        const itemKey = key as keyof Omit<MoveItem, 'createdAt' | 'id'>;
         return values.includes(item[itemKey]!);
       });
     });

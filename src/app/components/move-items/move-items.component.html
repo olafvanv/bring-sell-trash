@@ -1,13 +1,10 @@
-<div class="add-new-item"
-  (click)="addNewItem()">
-  <mat-icon>add</mat-icon>
-</div>
-
+<app-add-new-item (newItem)="addNewItem($event)"></app-add-new-item>
 <div class="items-container">
   @for(item of items(); track item.id) {
   <div class="card-wrapper"
     [@addRemoveCard]>
     <app-move-item-card [item]="item"
+      [items]="items()"
       class="move-item-card"
       (delete)="deleteItem(item)">
     </app-move-item-card>
