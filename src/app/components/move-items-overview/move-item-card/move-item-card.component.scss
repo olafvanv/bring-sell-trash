@@ -4,11 +4,12 @@
   border-style: solid;
   border-color: var(--mat-sys-outline-variant);
   background-color: var(--mat-sys-surface);
-  padding: 16px;
+  padding: 1rem;
 
   .card-header {
     display: flex;
     align-items: center;
+    margin-bottom: 0.5rem;
 
     .name {
       flex: 1;
@@ -19,8 +20,11 @@
   }
 
   .category {
-    color: var(--mat-sys-on-surface-variant);
-    margin-bottom: 16px;
+    color: rgba(0, 0, 0, 0.78);
+    border: 1px solid;
+    border-radius: var(--mat-sys-corner-small);
+    padding: 4px 8px;
+    margin-right: 1rem;
   }
 
   .decision {

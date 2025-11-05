@@ -63,6 +63,7 @@ export class AddNewItemComponent {
             (decision) => decision.label,
             (decision) => decision.value
           ),
+          validators: [DynamicFormValidators.required('Decision is required')],
         }),
       ],
     ];

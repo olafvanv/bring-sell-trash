@@ -10,9 +10,10 @@ import {
   query,
   serverTimestamp,
 } from '@angular/fire/firestore';
-import { combineLatest, map, Observable, tap } from 'rxjs';
+import { combineLatest, map, Observable, of, tap } from 'rxjs';
 import { MoveItemFilters } from '../models/item-filters.type';
 import { MoveItem } from '../models/move-item.model';
+import { AuthenticationService } from './authentication.service';
 import { CategoryService } from './category.service';
 
 @Injectable({
@@ -24,12 +25,23 @@ export class ItemsService {
   public items = this._items.asReadonly();
   public filters = signal<MoveItemFilters>({} as MoveItemFilters);
 
-  constructor(private db: Firestore, private categoryService: CategoryService) {
+  constructor(
+    private db: Firestore,
+    private categoryService: CategoryService,
+    private auth: AuthenticationService
+  ) {
     this.getItems().subscribe();
   }
 
   public getItems(): Observable<MoveItem[]> {
-    const itemCollection = collection(this.db, 'items');
+    const user = this.auth.currentUser();
+
+    if (!user) {
+      console.warn('No user found to fetch data');
+      return of([]);
+    }
+
+    const itemCollection = collection(this.db, `users/${user.uid}/move-items`);
     const itemQuery = query(itemCollection, orderBy('createdAt', 'desc'));
 
     const items$ = collectionData(itemQuery, {
@@ -42,7 +54,7 @@ export class ItemsService {
         return items.map((item) => {
           return {
             ...item,
-            category: categories.find((c) => c.id === item.categoryId),
+            category: categories.find((c) => c.id === item.categoryId)!,
           };
         });
       }),
@@ -51,13 +63,25 @@ export class ItemsService {
   }
 
   public addItem(item: MoveItem): void {
-    const itemCollection = collection(this.db, 'items');
+    const user = this.auth.currentUser();
+
+    if (!user) {
+      return;
+    }
+
+    const itemCollection = collection(this.db, `users/${user.uid}/move-items`);
 
     addDoc(itemCollection, { ...item, createdAt: serverTimestamp() });
   }
 
   public removeItem(item: MoveItem): void {
-    const ref = doc(this.db, `items/${item.id}`);
+    const user = this.auth.currentUser();
+
+    if (!user) {
+      return;
+    }
+
+    const ref = doc(this.db, `users/${user.uid}/move-items/${item.id}`);
 
     deleteDoc(ref);
   }

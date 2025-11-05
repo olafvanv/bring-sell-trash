@@ -7,8 +7,9 @@ import {
   doc,
   Firestore,
 } from '@angular/fire/firestore';
-import { Observable, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { Category } from '../models/category.interface';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({ providedIn: 'root' })
 export class CategoryService {
@@ -27,10 +28,17 @@ export class CategoryService {
     }, {} as Record<string, string>)
   );
 
-  constructor(private db: Firestore) {}
+  constructor(private db: Firestore, private auth: AuthenticationService) {}
 
   public getCategories(): Observable<Category[]> {
-    const categoryCollection = collection(this.db, 'categories');
+    const user = this.auth.currentUser();
+
+    if (!user) return of([]);
+
+    const categoryCollection = collection(
+      this.db,
+      `users/${user.uid}/categories`
+    );
 
     return (
       collectionData(categoryCollection, {
@@ -40,21 +48,25 @@ export class CategoryService {
   }
 
   public addCategory(category: Category): void {
-    addDoc(collection(this.db, 'categories'), category).then((docRef) => {
-      this._categories.update((cats) => [
-        ...cats,
-        { ...category, id: docRef.id },
-      ]);
-    });
+    const user = this.auth.currentUser();
+
+    if (!user) return;
+
+    const categoryCollection = collection(
+      this.db,
+      `users/${user.uid}/categories`
+    );
+
+    addDoc(categoryCollection, category);
   }
 
   public removeCategory(category: Category): void {
-    const ref = doc(this.db, `categories/${category.id}`);
+    const user = this.auth.currentUser();
 
-    deleteDoc(ref).then(() => {
-      this._categories.update((cats) =>
-        cats.filter((cat) => cat.id !== category.id)
-      );
-    });
+    if (!user) return;
+
+    const ref = doc(this.db, `users/${user.uid}/categories/${category.id}`);
+
+    deleteDoc(ref);
   }
 }

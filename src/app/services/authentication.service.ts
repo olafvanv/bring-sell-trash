@@ -1,10 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { effect, Injectable, Signal, signal } from '@angular/core';
+import { Injectable, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
   Auth,
   GoogleAuthProvider,
-  signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
   user,
@@ -14,18 +12,12 @@ import { from, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  public user$: Signal<User | null> = signal<User | null>(null);
-  public user: Observable<User | null>;
+  public user$: Observable<User | null>;
+  public currentUser: Signal<User | null | undefined>;
 
-  constructor(private http: HttpClient, private auth: Auth) {
-    this.user$ = toSignal(user(this.auth), { initialValue: null });
-    this.user = user(this.auth);
-
-    effect(() => console.log(this.user$()));
-  }
-
-  public loginWithEmail(email: string, password: string) {
-    return from(signInWithEmailAndPassword(this.auth, email, password));
+  constructor(private auth: Auth) {
+    this.user$ = user(this.auth);
+    this.currentUser = toSignal(user(this.auth));
   }
 
   public loginWithGoogle() {

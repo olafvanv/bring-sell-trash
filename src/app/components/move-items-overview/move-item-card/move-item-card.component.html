@@ -4,7 +4,11 @@
     <app-delete-button (delete)="onDelete()"></app-delete-button>
   </div>
 
-  <div class="category">{{item().categoryName}}</div>
-  <div class="decision"
-    [innerHTML]="item().state | decisionLabel"></div>
+  <span class="category"
+    [style.borderColor]="categoryColors().border"
+    [style.backgroundColor]="categoryColors().background">
+    {{item().category.name}}
+  </span>
+  <span class="decision"
+    [innerHTML]="item().state | decisionLabel"></span>
 </div>

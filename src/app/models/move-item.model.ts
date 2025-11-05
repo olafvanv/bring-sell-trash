@@ -6,7 +6,7 @@ export interface MoveItem {
   id?: string;
   name: string;
   categoryId: string | null;
-  category?: Category;
+  category: Category;
   state: MoveDecision | null;
   createdAt?: Timestamp;
 }
