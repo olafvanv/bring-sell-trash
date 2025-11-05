@@ -1,6 +1,28 @@
 @use "@angular/material" as mat;
 
 .category-list {
+  .color-picker-button {
+    border: 1px solid var(--mat-sys-outline);
+    position: relative;
+
+    &.no-color {
+      background-color: var(--mat-sys-surface-container-lowest);
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        width: 1px;
+        height: 100%;
+        margin: 0 auto;
+        background-color: var(--mat-sys-error);
+        transform: rotate(45deg);
+      }
+    }
+  }
+
   .category-list-item {
     display: flex;
     justify-content: space-between;
@@ -8,10 +30,42 @@
     align-items: center;
     padding: 8px 0;
 
+    .color {
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--mat-sys-outline);
+      border-radius: 50%;
+    }
+
+    .name {
+      flex: 1;
+    }
+
     @include mat.icon-overrides(
       (
         color: var(--mat-sys-error),
       )
     );
+  }
+}
+
+.color-picker {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5em;
+  justify-content: center;
+  padding: 0.5em;
+
+  .color {
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    border: 1px solid var(--mat-sys-outline);
+    cursor: pointer;
+
+    &:hover {
+      border-color: var(----mat-sys-on-surface-container-lowest);
+      box-shadow: var(--mat-sys-level1);
+    }
   }
 }

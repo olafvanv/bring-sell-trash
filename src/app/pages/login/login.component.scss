@@ -1,0 +1,30 @@
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: var(--mat-sys-secondary-container);
+  padding: 1em;
+  box-sizing: border-box;
+
+  .login-card {
+    padding: 2em;
+    background-color: var(--mat-sys-surface-container-lowest);
+    color: var(--mat-sys-on-surface-container-lowest);
+    box-shadow: var(--mat-sys-level2);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    border-radius: 8px;
+
+    img {
+      width: 150px;
+    }
+  }
+}

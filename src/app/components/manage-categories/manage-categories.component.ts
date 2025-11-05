@@ -3,7 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { CATEGORY_COLORS } from '../../models/category-colors.const';
 import { Category } from '../../models/category.interface';
 import { CategoryService } from '../../services/category.service';
 import { LIST_ITEM_ANIMATION } from '../../utils/animations/list-item.animation';
@@ -17,6 +21,9 @@ import { LIST_ITEM_ANIMATION } from '../../utils/animations/list-item.animation'
     MatIconModule,
     MatDividerModule,
     FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatMenuModule,
   ],
   templateUrl: './manage-categories.component.html',
   styleUrl: './manage-categories.component.scss',
@@ -24,7 +31,11 @@ import { LIST_ITEM_ANIMATION } from '../../utils/animations/list-item.animation'
 })
 export class ManageCategoriesComponent {
   public categories: Signal<Category[]>;
-  public newCategoryName = '';
+  public colors = CATEGORY_COLORS;
+  public newCategory: Category = {
+    name: '',
+    color: '',
+  };
 
   constructor(private categoryService: CategoryService) {
     this.categories = this.categoryService.categories;
@@ -38,18 +49,23 @@ export class ManageCategoriesComponent {
     if (!this.canAddCategory()) return;
 
     this.categoryService.addCategory({
-      name: this.newCategoryName.trim(),
+      name: this.newCategory.name.trim(),
+      color: this.newCategory.color,
     });
 
-    this.newCategoryName = '';
+    this.newCategory = {
+      name: '',
+      color: '',
+    };
   }
 
   public canAddCategory(): boolean {
-    const name = this.newCategoryName.trim();
+    const name = !!this.newCategory.name.trim() && !!this.newCategory.color;
 
     return (
-      name.length > 0 &&
-      this.categories().filter((c) => c.name === name).length === 0
+      name &&
+      this.categories().filter((c) => c.name === this.newCategory.name.trim())
+        .length === 0
     );
   }
 }

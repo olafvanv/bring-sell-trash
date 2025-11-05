@@ -1,20 +1,18 @@
-import {
-  ApplicationConfig,
-  provideAppInitializer,
-  provideZoneChangeDetection,
-} from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
-import { appInitializer } from './app.initializer';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
+    provideHttpClient(),
     provideRouter(routes),
     provideAnimations(),
     {
@@ -31,8 +29,9 @@ export const appConfig: ApplicationConfig = {
         messagingSenderId: '777037437597',
       })
     ),
+    provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    provideAppInitializer(appInitializer),
+    // provideAppInitializer(appInitializer),
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline', subscriptSizing: 'dynamic' },

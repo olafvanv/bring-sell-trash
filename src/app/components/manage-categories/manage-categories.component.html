@@ -3,21 +3,36 @@
 <div mat-dialog-content>
   <div class="category-list">
     <div class="category-list-item add-item">
-      <input type="text"
-        placeholder="New category"
-        (keyup.enter)="addCategory()"
-        [(ngModel)]="newCategoryName" />
+      <mat-form-field>
+        <input matInput
+          type="text"
+          placeholder="New category"
+          (keyup.enter)="addCategory()"
+          [(ngModel)]="newCategory.name" />
+      </mat-form-field>
+
+      <button mat-icon-button
+        class="color-picker-button"
+        [class.no-color]="!newCategory.color"
+        [style.backgroundColor]="newCategory.color"
+        [matMenuTriggerFor]="colorPicker">
+      </button>
+
       <button mat-icon-button
         (click)="addCategory()"
-        [disabled]="!newCategoryName.trim()"
+        [disabled]="!newCategory.name.trim()"
         type="submit">
         <mat-icon>add</mat-icon>
       </button>
     </div>
+
     <mat-divider></mat-divider>
+
     @for(category of categories(); track category.id) {
     <div class="category-list-item"
       [@listItem]>
+      <span class="color"
+        [style.backgroundColor]="category.color"></span>
       <span class="name">{{category.name}}</span>
       <button mat-icon-button
         (click)="removeCategory(category)">
@@ -33,3 +48,14 @@
   <button mat-button
     mat-dialog-close>Close</button>
 </div>
+
+<mat-menu #colorPicker>
+  <div class="color-picker">
+    @for(color of colors; track color) {
+    <div class="color"
+      [style.backgroundColor]="color"
+      (click)="newCategory.color = color">
+    </div>
+    }
+  </div>
+</mat-menu>

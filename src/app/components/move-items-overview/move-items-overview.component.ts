@@ -8,18 +8,18 @@ import { ADD_REMOVE_CARD_ANIMATION } from './add-remove-card.animation';
 import { MoveItemCardComponent } from './move-item-card/move-item-card.component';
 
 @Component({
-  selector: 'app-move-items',
+  selector: 'app-move-items-overview',
   imports: [
     MatGridListModule,
     MoveItemCardComponent,
     MatIconModule,
     AddNewItemComponent,
   ],
-  templateUrl: './move-items.component.html',
-  styleUrl: './move-items.component.scss',
+  templateUrl: './move-items-overview.component.html',
+  styleUrl: './move-items-overview.component.scss',
   animations: [ADD_REMOVE_CARD_ANIMATION],
 })
-export class MoveItemsComponent {
+export class MoveItemsOverviewComponent {
   public items = input.required<MoveItem[]>();
 
   constructor(private itemsService: ItemsService) {}

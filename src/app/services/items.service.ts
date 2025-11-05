@@ -42,9 +42,7 @@ export class ItemsService {
         return items.map((item) => {
           return {
             ...item,
-            categoryName:
-              categories.find((cat) => cat.id === item.categoryId)?.name ??
-              'Unknown',
+            category: categories.find((c) => c.id === item.categoryId),
           };
         });
       }),

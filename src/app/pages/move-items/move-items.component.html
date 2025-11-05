@@ -1,0 +1,14 @@
+<mat-toolbar>
+  <h2>Bring, sell or trash</h2>
+
+  <button mat-icon-button
+    class="logout"
+    (click)="logout()">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="content-container">
+  <app-filters (filterChange)="onFilterChange($event)"></app-filters>
+  <app-move-items-overview [items]="items() | itemsFilter: selectedFilters()"></app-move-items-overview>
+</div>
