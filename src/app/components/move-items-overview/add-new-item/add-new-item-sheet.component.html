@@ -2,9 +2,16 @@
   <dynamic-form [formConfig]="formConfig"
     [group]="formGroup"></dynamic-form>
 
-  <button mat-flat-button
-    (click)="addItem()"
-    [disabled]="formGroup.invalid">
-    Add item
-  </button>
+
+  <div class="buttons">
+    <button mat-stroked-button
+      (click)="cancel()">
+      Cancel
+    </button>
+    <button mat-flat-button
+      (click)="addItem()"
+      [disabled]="formGroup.invalid">
+      Add item
+    </button>
+  </div>
 </div>

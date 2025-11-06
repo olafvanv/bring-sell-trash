@@ -114,10 +114,17 @@ export class AddNewItemComponent {
     .new-item-sheet {
       padding: 1rem;
     }
-    button {
+
+    .buttons {
+      display: flex;
+      gap: .5rem;
       margin-top: 1rem;
-      width: 100%;
+
+      button {
+        flex: 1;
+      }
     }
+    
     ::ng-deep .dynamic-form-row{
       margin: 8px 0;
     }
@@ -160,5 +167,9 @@ export class AddNewItemSheetComponent {
     const newItem = this.formGroup.value as MoveItem;
     this.formGroup.reset();
     this.bottomSheetRef.dismiss(newItem);
+  }
+
+  public cancel() {
+    this.bottomSheetRef.dismiss();
   }
 }
