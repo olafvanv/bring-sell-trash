@@ -19,20 +19,24 @@
     }
   }
 
-  .category {
-    color: rgba(0, 0, 0, 0.78);
+  .category,
+  .decision {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    height: 2rem;
     border: 1px solid;
     border-radius: var(--mat-sys-corner-small);
-    padding: 4px 8px;
+    color: var(--mat-sys-on-surface);
+    box-sizing: border-box;
+  }
+
+  .category {
     margin-right: 1rem;
   }
 
   .decision {
-    display: inline-block;
-    border: 1px solid var(--mat-sys-outline);
+    border-color: var(--mat-sys-outline);
     background-color: var(--mat-sys-surface);
-    padding: 4px 8px;
-    border-radius: var(--mat-sys-corner-small);
-    color: var(--mat-sys-on-surface);
   }
 }
