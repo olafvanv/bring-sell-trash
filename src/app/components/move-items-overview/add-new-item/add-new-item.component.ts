@@ -83,7 +83,7 @@ export class AddNewItemComponent {
   public startAddingItem(): void {
     if (this.onMobile()) {
       this.bottomSheet
-        .open(AddNewItemSheetComponent)
+        .open(AddNewItemSheetComponent, { autoFocus: true, disableClose: true })
         .afterDismissed()
         .pipe(take(1))
         .subscribe((res: MoveItem) => {
@@ -141,8 +141,6 @@ export class AddNewItemSheetComponent {
     private categoryService: CategoryService,
     private bottomSheetRef: MatBottomSheetRef<AddNewItemSheetComponent>
   ) {
-    this.bottomSheetRef.disableClose = true;
-
     const categoryOptions = this.dynamicFormService.toDynamicOptionListObs(
       toObservable(this.categoryService.categories),
       (category) => category.name,
