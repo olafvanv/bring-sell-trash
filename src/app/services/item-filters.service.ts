@@ -17,7 +17,9 @@ export class ItemFiltersService {
   });
 
   public hasActiveFilters = computed<boolean>(() => {
-    return !!Object.keys(this.selectedFilters)?.length;
+    const filters = this.selectedFilters();
+
+    return !!filters.categoryId?.length || !!filters.state?.length;
   });
 
   constructor() {}
