@@ -1,0 +1,42 @@
+<div class="filter-sheet">
+  <div class="header">
+    <span class="title">Filters</span>
+
+    @if(hasActiveFilters()) {
+    <button mat-stroked-button
+      (click)="clearAllFilters()">
+      <mat-icon>clear</mat-icon>
+      Clear
+    </button>
+    }
+  </div>
+
+  <div class="filter-fields">
+    <mat-form-field>
+      <mat-select placeholder="Category"
+        multiple
+        [(ngModel)]="selectedCategories">
+
+        @for(category of categories(); track category.id) {
+        <mat-option [value]="category.id">{{category.name}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select placeholder="Decision"
+        multiple
+        [(ngModel)]="selectedDecisions">
+
+        @for(decision of decisions; track decision.value) {
+        <mat-option [value]="decision.value">{{decision.label}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-flat-button
+      (click)="closeSheet()">
+      Submit
+    </button>
+  </div>
+</div>

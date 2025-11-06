@@ -1,4 +1,4 @@
-import { Component, Signal, signal } from '@angular/core';
+import { Component, Signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -9,6 +9,7 @@ import { MoveItemFilters } from '../../models/item-filters.type';
 import { MoveItem } from '../../models/move-item.model';
 import { ItemsFilterPipe } from '../../pipes/items-filter.pipe';
 import { AuthenticationService } from '../../services/authentication.service';
+import { ItemFiltersService } from '../../services/item-filters.service';
 import { ItemsService } from '../../services/items.service';
 
 @Component({
@@ -26,18 +27,16 @@ import { ItemsService } from '../../services/items.service';
 })
 export class MoveItemsComponent {
   public items: Signal<MoveItem[]>;
-  public selectedFilters = signal<MoveItemFilters>({} as MoveItemFilters);
+  public selectedFilters: Signal<MoveItemFilters>;
 
   constructor(
     private itemsService: ItemsService,
+    private itemFilterService: ItemFiltersService,
     private authService: AuthenticationService,
     private router: Router
   ) {
     this.items = this.itemsService.items;
-  }
-
-  onFilterChange(filters: MoveItemFilters) {
-    this.selectedFilters.set(filters);
+    this.selectedFilters = this.itemFilterService.selectedFilters;
   }
 
   public logout() {

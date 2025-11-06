@@ -1,4 +1,15 @@
 <div class="filters-container">
+
+  @if(showMobileView()){
+  <button mat-stroked-button
+    [matBadge]="'&#8288;'"
+    [matBadgeHidden]="!hasActiveFilters()"
+    class="filter-button-mobile"
+    (click)="openFilters()">
+    <mat-icon>filter_list</mat-icon>
+    <div>Filters</div>
+  </button>
+  } @else {
   <mat-icon class="filter-icon">filter_list</mat-icon>
 
   <mat-form-field>
@@ -23,8 +34,9 @@
     </mat-select>
   </mat-form-field>
 
+  }
   <div class="buttons">
-    @if(hasActiveFilters()) {
+    @if(hasActiveFilters() && !showMobileView()) {
     <button mat-stroked-button
       (click)="clearAllFilters()">
       <mat-icon>clear</mat-icon>
@@ -37,5 +49,4 @@
       <mat-icon>settings</mat-icon>
     </button>
   </div>
-
 </div>

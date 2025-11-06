@@ -10,7 +10,7 @@
   background-color: var(--mat-sys-surface-container);
   box-sizing: border-box;
   transition: all 0.2s ease;
-  height: 75px;
+  min-height: 75px;
 
   &:not(.adding) {
     .toggle-wrapper {
@@ -63,7 +63,7 @@
   }
 
   &.adding {
-    height: 110px;
+    min-height: 110px;
 
     .form-wrapper {
       width: 100%;
@@ -71,6 +71,7 @@
       box-sizing: border-box;
       display: flex;
       gap: 1rem;
+      flex-wrap: wrap;
 
       dynamic-form {
         flex: 1;

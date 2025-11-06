@@ -9,6 +9,6 @@
 </mat-toolbar>
 
 <div class="content-container">
-  <app-filters (filterChange)="onFilterChange($event)"></app-filters>
+  <app-filters></app-filters>
   <app-move-items-overview [items]="items() | itemsFilter: selectedFilters()"></app-move-items-overview>
 </div>

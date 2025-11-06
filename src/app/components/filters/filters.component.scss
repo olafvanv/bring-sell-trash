@@ -10,6 +10,15 @@
     color: var(--mat-sys-primary);
   }
 
+  .filter-button-mobile {
+    .filters-active {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: var(--mat-sys-warn);
+    }
+  }
+
   .buttons {
     margin-left: auto;
     display: flex;

@@ -11,7 +11,6 @@ import {
   serverTimestamp,
 } from '@angular/fire/firestore';
 import { combineLatest, map, Observable, of, tap } from 'rxjs';
-import { MoveItemFilters } from '../models/item-filters.type';
 import { MoveItem } from '../models/move-item.model';
 import { AuthenticationService } from './authentication.service';
 import { CategoryService } from './category.service';
@@ -23,7 +22,6 @@ export class ItemsService {
   private _items = signal<MoveItem[]>([]);
 
   public items = this._items.asReadonly();
-  public filters = signal<MoveItemFilters>({} as MoveItemFilters);
 
   constructor(
     private db: Firestore,
