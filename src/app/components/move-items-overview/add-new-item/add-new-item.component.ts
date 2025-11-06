@@ -1,26 +1,38 @@
-import { Component, output, signal } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, output, Signal, signal } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup } from '@angular/forms';
+import {
+  MatBottomSheet,
+  MatBottomSheetModule,
+  MatBottomSheetRef,
+} from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {
-  DynamicButtonToggles,
   DynamicFormComponent,
   DynamicFormConfig,
   DynamicFormService,
-  DynamicFormValidators,
-  DynamicInput,
-  DynamicSelect,
+  DynamicSelectConfig,
 } from '@olafvv/ngx-dynamic-form';
-import { of } from 'rxjs';
+import { map, take } from 'rxjs';
 import { FormModel } from '../../../models/form-model.type';
 import { MoveItem } from '../../../models/move-item.model';
-import { MOVE_DECISIONS } from '../../../models/move-state.enum';
+import {
+  CATEGORY_FIELD,
+  DECISION_FIELD,
+  NAME_FIELD,
+} from '../../../models/new-item-form.model';
 import { CategoryService } from '../../../services/category.service';
 
 @Component({
   selector: 'app-add-new-item',
-  imports: [MatIconModule, DynamicFormComponent, MatButtonModule],
+  imports: [
+    MatIconModule,
+    DynamicFormComponent,
+    MatButtonModule,
+    MatBottomSheetModule,
+  ],
   templateUrl: './add-new-item.component.html',
   styleUrl: './add-new-item.component.scss',
 })
@@ -33,44 +45,56 @@ export class AddNewItemComponent {
   public formGroup: FormGroup<
     FormModel<Pick<MoveItem, 'name' | 'categoryId' | 'state'>>
   >;
+  public onMobile: Signal<boolean>;
 
   constructor(
     private dynamicFormService: DynamicFormService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private breakpointObserver: BreakpointObserver,
+    private bottomSheet: MatBottomSheet
   ) {
+    this.onMobile = toSignal(
+      this.breakpointObserver
+        .observe(Breakpoints.XSmall)
+        .pipe(map((r) => r.matches)),
+      { initialValue: false }
+    );
+
+    const categoryOptions = this.dynamicFormService.toDynamicOptionListObs(
+      toObservable(this.categoryService.categories),
+      (category) => category.name,
+      (category) => category.id
+    );
+
     this.formConfig = [
       [
-        new DynamicInput({
-          inputType: 'text',
-          name: 'name',
-          label: 'Item name',
-          validators: [DynamicFormValidators.required('Item name is required')],
-        }),
-        new DynamicSelect({
-          name: 'categoryId',
-          label: 'Category',
-          options: this.dynamicFormService.toDynamicOptionListObs(
-            toObservable(this.categoryService.categories),
-            (category) => category.name,
-            (category) => category.id
-          ),
-          validators: [DynamicFormValidators.required('Category is required')],
-        }),
-        new DynamicButtonToggles({
-          name: 'state',
-          options: this.dynamicFormService.toDynamicOptionListObs(
-            of(MOVE_DECISIONS),
-            (decision) => decision.label,
-            (decision) => decision.value
-          ),
-          validators: [DynamicFormValidators.required('Decision is required')],
-        }),
+        NAME_FIELD(),
+        CATEGORY_FIELD({ options: categoryOptions } as Pick<
+          DynamicSelectConfig<string>,
+          'options'
+        >),
+        DECISION_FIELD(),
       ],
     ];
+
     this.formGroup = this.dynamicFormService.createFormGroup(this.formConfig);
   }
 
   public startAddingItem(): void {
+    if (this.onMobile()) {
+      this.bottomSheet
+        .open(AddNewItemSheetComponent)
+        .afterDismissed()
+        .pipe(take(1))
+        .subscribe((res: MoveItem) => {
+          if (res) {
+            this.newItem.emit(res);
+          }
+        });
+
+      return;
+    }
+
     this.addingItem.set(true);
   }
 
@@ -79,5 +103,62 @@ export class AddNewItemComponent {
     this.newItem.emit(newItem);
     this.formGroup.reset();
     this.addingItem.set(false);
+  }
+}
+
+@Component({
+  imports: [DynamicFormComponent, MatBottomSheetModule, MatButtonModule],
+  selector: 'add-new-item-sheet',
+  templateUrl: './add-new-item-sheet.component.html',
+  styles: `
+    .new-item-sheet {
+      padding: 1rem;
+    }
+    button {
+      margin-top: 1rem;
+      width: 100%;
+    }
+    ::ng-deep .dynamic-form-row{
+      margin: 8px 0;
+    }
+  `,
+})
+export class AddNewItemSheetComponent {
+  public formConfig: DynamicFormConfig;
+  public formGroup: FormGroup<
+    FormModel<Pick<MoveItem, 'name' | 'categoryId' | 'state'>>
+  >;
+
+  constructor(
+    private dynamicFormService: DynamicFormService,
+    private categoryService: CategoryService,
+    private bottomSheetRef: MatBottomSheetRef<AddNewItemSheetComponent>
+  ) {
+    this.bottomSheetRef.disableClose = true;
+
+    const categoryOptions = this.dynamicFormService.toDynamicOptionListObs(
+      toObservable(this.categoryService.categories),
+      (category) => category.name,
+      (category) => category.id
+    );
+
+    this.formConfig = [
+      [NAME_FIELD()],
+      [
+        CATEGORY_FIELD({ options: categoryOptions } as Pick<
+          DynamicSelectConfig<string>,
+          'options'
+        >),
+      ],
+      [DECISION_FIELD()],
+    ];
+
+    this.formGroup = this.dynamicFormService.createFormGroup(this.formConfig);
+  }
+
+  public addItem() {
+    const newItem = this.formGroup.value as MoveItem;
+    this.formGroup.reset();
+    this.bottomSheetRef.dismiss(newItem);
   }
 }

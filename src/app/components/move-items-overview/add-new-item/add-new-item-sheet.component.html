@@ -1,0 +1,10 @@
+<div class="new-item-sheet">
+  <dynamic-form [formConfig]="formConfig"
+    [group]="formGroup"></dynamic-form>
+
+  <button mat-flat-button
+    (click)="addItem()"
+    [disabled]="formGroup.invalid">
+    Add item
+  </button>
+</div>
