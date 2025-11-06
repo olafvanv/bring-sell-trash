@@ -1,9 +1,12 @@
 mat-toolbar {
   max-width: 1200px;
   margin: 0 auto;
+  background-color: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
 
   .logout {
     margin-left: auto;
+    color: var(--mat-sys-on-primary);
   }
 }
 

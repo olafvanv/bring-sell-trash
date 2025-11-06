@@ -14,11 +14,20 @@ html,
 body {
   height: 100%;
   font-size: 16px;
-  background-color: var(--mat-sys-surface);
+  background-color: var(--mat-sys-primary);
+  overflow: hidden;
 }
+
 body {
   margin: 0;
   font-family: Quicksand, "Helvetica Neue", sans-serif;
+}
+
+#app-container {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: var(--mat-sys-surface);
 }
 
 h1 {
