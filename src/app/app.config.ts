@@ -19,16 +19,7 @@ export const appConfig: ApplicationConfig = {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { hasBackdrop: true, autoFocus: false },
     },
-    provideFirebaseApp(() =>
-      initializeApp({
-        projectId: 'bring-sell-trash',
-        appId: '1:777037437597:web:9a44c4c165999cc6435274',
-        storageBucket: 'bring-sell-trash.firebasestorage.app',
-        apiKey: 'AIzaSyAfqzm-Y89kgoPGSuOOcmsUa_o494u4Lfw',
-        authDomain: 'bring-sell-trash.firebaseapp.com',
-        messagingSenderId: '777037437597',
-      })
-    ),
+    provideFirebaseApp(() => initializeApp({})),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     // provideAppInitializer(appInitializer),
